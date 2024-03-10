@@ -6,6 +6,9 @@
     "@types/bun": "latest",
     "zx": "^7.2.3"
   },
+  "bin": {
+    "bunts": "index.ts"
+  },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
