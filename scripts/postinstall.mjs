@@ -1,9 +1,10 @@
 #!/usr/bin/env zx
 import { $ } from 'zx';
-import { setRepo, setName, setBin, getRepoName, formatName } from './package-json-utils.mjs';
+import createUtils from './package-json-utils.mjs';
 
 async function postinstall() {
   const projectDir = process.cwd();
+  const { setRepo, setName, setBin, getRepoName, formatName } = createUtils(projectDir);
 
   // Use getRepoName to fetch the repository name from .git config
   const repoName = await getRepoName();
@@ -16,12 +17,12 @@ async function postinstall() {
     const repoUrl = `git@github.com:${repoName}.git`;
 
     // Set repository URL and formatted name in package.json
-    await setRepo(projectDir, repoUrl);
-    await setName(projectDir, formattedName);
+    await setRepo(repoUrl);
+    await setName(formattedName);
   }
 
   // Handle the bin property by creating a symlink if it exists
-  await setBin(projectDir);
+  await setBin();
 }
 
 postinstall().catch(console.error);
